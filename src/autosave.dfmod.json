@@ -1,0 +1,14 @@
+{
+    "ModTitle": "Autosave",
+    "ModVersion": "0.0.1",
+    "ModAuthor": "aches",
+    "ContactInfo": "",
+    "DFUnity_Version": "0.7.146",
+    "ModDescription": "",
+    "GUID": "d2159903-42ac-43f9-86d8-8d83795959ab",
+    "Files": [
+        "Assets/Untracked/ModBuilder/modsettings.json",
+        "Assets/Untracked/ModBuilder/AutosaveManager.cs",
+        "Assets/Untracked/ModBuilder/autosave.dfmod.json"
+    ]
+}

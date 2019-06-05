@@ -1,0 +1,18 @@
+ManifestFileVersion: 0
+CRC: 2724542029
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: c19c39aeb6512a13ddcf4d27ff2664bb
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 5ad585dd02dfb5016c0dad519eab8f49
+HashAppended: 0
+ClassTypes:
+- Class: 49
+  Script: {instanceID: 0}
+Assets:
+- Assets/Untracked/ModBuilder/Autosave/AutosaveManager.cs.txt
+- Assets/Untracked/ModBuilder/autosave.dfmod.json
+- Assets/Untracked/ModBuilder/modsettings.json
+Dependencies: []

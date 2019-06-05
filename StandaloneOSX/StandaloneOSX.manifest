@@ -1,0 +1,7 @@
+ManifestFileVersion: 0
+CRC: 785168560
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: autosave.dfmod
+      Dependencies: {}

@@ -1,0 +1,29 @@
+{
+    "Version": null,
+    "Sections": [
+        {
+            "Name": "Section",
+            "Description": null,
+            "IsAdvanced": false,
+            "Keys": [
+                {
+                    "Min": 1,
+                    "Max": 30,
+                    "Value": 1,
+                    "Name": "AutosaveInterval",
+                    "Description": "How often the game should save (minutes)",
+                    "$version": "v1",
+                    "$type": "DaggerfallWorkshop.Game.Utility.ModSupport.ModSettings.SliderIntKey"
+                },
+                {
+                    "Value": "Autosave",
+                    "Name": "AutosavePrefix",
+                    "Description": "Prefix of the autosave",
+                    "$version": "v1",
+                    "$type": "DaggerfallWorkshop.Game.Utility.ModSupport.ModSettings.TextKey"
+                }
+            ],
+            "$version": "v1"
+        }
+    ]
+}
