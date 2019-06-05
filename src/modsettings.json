@@ -9,7 +9,7 @@
                 {
                     "Min": 1,
                     "Max": 30,
-                    "Value": 1,
+                    "Value": 15,
                     "Name": "AutosaveInterval",
                     "Description": "How often the game should save (minutes)",
                     "$version": "v1",
