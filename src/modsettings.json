@@ -2,7 +2,7 @@
     "Version": null,
     "Sections": [
         {
-            "Name": "Section",
+            "Name": "Autosave",
             "Description": null,
             "IsAdvanced": false,
             "Keys": [
@@ -21,6 +21,13 @@
                     "Description": "Prefix of the autosave",
                     "$version": "v1",
                     "$type": "DaggerfallWorkshop.Game.Utility.ModSupport.ModSettings.TextKey"
+                },
+                {
+                    "Value": true,
+                    "Name": "SaveInCombat",
+                    "Description": "Enable Disable",
+                    "$version": "v1",
+                    "$type": "DaggerfallWorkshop.Game.Utility.ModSupport.ModSettings.ToggleKey"
                 }
             ],
             "$version": "v1"

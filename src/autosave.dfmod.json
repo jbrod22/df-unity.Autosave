@@ -8,7 +8,7 @@
     "GUID": "d2159903-42ac-43f9-86d8-8d83795959ab",
     "Files": [
         "Assets/Untracked/ModBuilder/modsettings.json",
-        "Assets/Untracked/ModBuilder/AutosaveManager.cs",
-        "Assets/Untracked/ModBuilder/autosave.dfmod.json"
+        "Assets/Untracked/ModBuilder/autosave.dfmod.json",
+        "Assets/Untracked/ModBuilder/AutosaveManager.cs"
     ]
 }
