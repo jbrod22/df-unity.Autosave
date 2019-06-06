@@ -3,11 +3,11 @@
     "Sections": [
         {
             "Name": "Autosave",
-            "Description": null,
+            "Description": "General settings",
             "IsAdvanced": false,
             "Keys": [
                 {
-                    "Min": 1,
+                    "Min": 0,
                     "Max": 30,
                     "Value": 15,
                     "Name": "AutosaveInterval",
@@ -16,16 +16,93 @@
                     "$type": "DaggerfallWorkshop.Game.Utility.ModSupport.ModSettings.SliderIntKey"
                 },
                 {
-                    "Value": "Autosave",
-                    "Name": "AutosavePrefix",
-                    "Description": "Prefix of the autosave",
-                    "$version": "v1",
-                    "$type": "DaggerfallWorkshop.Game.Utility.ModSupport.ModSettings.TextKey"
-                },
-                {
                     "Value": true,
                     "Name": "SaveInCombat",
                     "Description": "Enable Disable",
+                    "$version": "v1",
+                    "$type": "DaggerfallWorkshop.Game.Utility.ModSupport.ModSettings.ToggleKey"
+                },
+                {
+                    "Min": 1,
+                    "Max": 15,
+                    "Value": 8,
+                    "Name": "AutosaveLimit",
+                    "Description": "How many autosaves at once",
+                    "$version": "v1",
+                    "$type": "DaggerfallWorkshop.Game.Utility.ModSupport.ModSettings.SliderIntKey"
+                },
+                {
+                    "Value": false,
+                    "Name": "InfiniteAutosaves",
+                    "Description": "Ignores the limit above. No limit on saves",
+                    "$version": "v1",
+                    "$type": "DaggerfallWorkshop.Game.Utility.ModSupport.ModSettings.ToggleKey"
+                },
+                {
+                    "Value": false,
+                    "Name": "OnEnterExitSave",
+                    "Description": "When entering or exiting a build save",
+                    "$version": "v1",
+                    "$type": "DaggerfallWorkshop.Game.Utility.ModSupport.ModSettings.ToggleKey"
+                },
+                {
+                    "Value": false,
+                    "Name": "OnRest",
+                    "Description": "Save on rest",
+                    "$version": "v1",
+                    "$type": "DaggerfallWorkshop.Game.Utility.ModSupport.ModSettings.ToggleKey"
+                }
+            ],
+            "$version": "v1"
+        },
+        {
+            "Name": "Formatting",
+            "Description": "Fine tune autosave naming",
+            "IsAdvanced": false,
+            "Keys": [
+                {
+                    "Options": [
+                        "None",
+                        "MM/dd/yyyy",
+                        "dd/MM/yyyy",
+                        "yyyy MMMM",
+                        "MMMM yyyy"
+                    ],
+                    "Value": 0,
+                    "Name": "Calendar",
+                    "Description": "Format of Calendar. MMMM = Show full month name",
+                    "$version": "v1",
+                    "$type": "DaggerfallWorkshop.Game.Utility.ModSupport.ModSettings.MultipleChoiceKey"
+                },
+                {
+                    "Value": false,
+                    "Name": "TamrielicCalendar",
+                    "Description": "Use the Tamrielic Calendar instead of real life calendar",
+                    "$version": "v1",
+                    "$type": "DaggerfallWorkshop.Game.Utility.ModSupport.ModSettings.ToggleKey"
+                },
+                {
+                    "Options": [
+                        "HH:mm",
+                        "H:mm"
+                    ],
+                    "Value": 0,
+                    "Name": "Time",
+                    "Description": "Format of hour:minutes. HH = 04:20. H = 4:20",
+                    "$version": "v1",
+                    "$type": "DaggerfallWorkshop.Game.Utility.ModSupport.ModSettings.MultipleChoiceKey"
+                },
+                {
+                    "Value": true,
+                    "Name": "24hrClock",
+                    "Description": "Use a 24 hour clock",
+                    "$version": "v1",
+                    "$type": "DaggerfallWorkshop.Game.Utility.ModSupport.ModSettings.ToggleKey"
+                },
+                {
+                    "Value": false,
+                    "Name": "ShowLocationName",
+                    "Description": "Display the current location in the save name",
                     "$version": "v1",
                     "$type": "DaggerfallWorkshop.Game.Utility.ModSupport.ModSettings.ToggleKey"
                 }
