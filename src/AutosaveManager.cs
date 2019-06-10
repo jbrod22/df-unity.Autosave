@@ -4,19 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using DaggerfallWorkshop.Game;
 using DaggerfallWorkshop.Game.UserInterfaceWindows;
+using DaggerfallWorkshop.Game.Utility;
 using DaggerfallWorkshop.Game.Utility.ModSupport;
 using DaggerfallWorkshop.Game.Utility.ModSupport.ModSettings;
 using DaggerfallWorkshop.Game.Serialization;
 
-/**
- * TODO
- * autosave limit
- * infinite autosave
- * 1. GetCharacterNames
- * 2. GetCharacterSaveKeys
- * 3. GetSaveInfo
- * 4. 
- */
 
 
 namespace AutosaveManager
@@ -44,7 +36,6 @@ namespace AutosaveManager
         private string displayTime = "";
 
         // Maximum autosaves
-        Queue<int> queueAutosaves = new Queue<int>();
         private string currPlayerName = "";
 
         // Timer
@@ -74,16 +65,16 @@ namespace AutosaveManager
                     calendarFormat = "";
                     break;
                 case 1:
-                    calendarFormat = "MM/dd/yyyy";
+                    calendarFormat = "MM/dd/yyyy ";
                     break;
                 case 2:
-                    calendarFormat = "dd/MM/yyyy";
+                    calendarFormat = "dd/MM/yyyy ";
                     break;
                 case 3:
-                    calendarFormat = "yyyy MMMM";
+                    calendarFormat = "yyyy MMMM ";
                     break;
                 case 4:
-                    calendarFormat = "MMMM yyyy";
+                    calendarFormat = "MMMM yyyy ";
                     break;
                 default:
                     calendarFormat = "";
@@ -92,17 +83,8 @@ namespace AutosaveManager
             }     
             use24HourClock = settings.GetValue<bool>("Formatting", "24hrClock");
             timeFormat = use24HourClock ? "HH:mm" : "h:mm tt";
-            displayTime = calendarFormat + " " + timeFormat;
+            displayTime = calendarFormat + timeFormat;
             enableLocation = settings.GetValue<bool>("Formatting", "ShowLocationName");
-
-            // Autosave Limiting
-            if (autosaveLimit != 0)
-            {
-                currPlayerName = GameManager.Instance.PlayerEntity.Name;
-                SaveLoadManager.OnLoad += CheckPlayerCharacter;
-                SaveLoadManager.OnSave += FireOnSaveEvent;
-                InsertPlayerSaves();
-            }
 
             if (enableAutosaveTimer)
             {
@@ -128,6 +110,8 @@ namespace AutosaveManager
                 DaggerfallTravelPopUp.OnPostFastTravel += Autosave;
             }
 
+            //Save game when starting new game
+            StartGameBehaviour.OnNewGame += Autosave;
         }
 
         private void CheckPlayerCharacter(SaveData_v1 saveData)
@@ -135,40 +119,7 @@ namespace AutosaveManager
             if(currPlayerName != saveData.playerData.playerEntity.name)
             {
                 currPlayerName = saveData.playerData.playerEntity.name;
-                InsertPlayerSaves();
             }
-            return;
-        }
-
-        private void InsertPlayerSaves()
-        {
-            queueAutosaves.Clear();
-            int[] currKeys = GameManager.Instance.SaveLoadManager.GetCharacterSaveKeys(currPlayerName);
-
-            for (int i = 0; i < currKeys.Length / 2; i++)
-            {
-                int tmp = currKeys[i];
-                currKeys[i] = currKeys[currKeys.Length - i - 1];
-                currKeys[currKeys.Length - i - 1] = tmp;
-            }
-
-            // Need to check order by time
-            foreach (var key in currKeys)
-            {
-                SaveInfo_v1 saveFolder = GameManager.Instance.SaveLoadManager.GetSaveInfo(key);
-                if (saveFolder.saveName.Contains("Autosave"))
-                {
-                    Debug.Log("Key: " + key.ToString() + " Name: " + saveFolder.saveName + ". Date: " + saveFolder.dateAndTime.realTime.ToString());
-                    // Assume autosave, in the final native version this will be done more securely/efficiently 
-                    queueAutosaves.Enqueue(key);
-                }
-            }
-            return;
-        }
-
-        private void FireOnSaveEvent(SaveData_v1 saveData)
-        {
-            InsertPlayerSaves();
             return;
         }
 
@@ -180,26 +131,52 @@ namespace AutosaveManager
             {
                 if (enableLocation)
                 {
-                    saveName += " " + GameManager.Instance.PlayerGPS.CurrentLocation.Name;
+                    string locationName = GameManager.Instance.PlayerGPS.CurrentLocation.Name == " " ? GameManager.Instance.PlayerGPS.CurrentRegion.Name : GameManager.Instance.PlayerGPS.CurrentLocation.Name;
+                    saveName += " " + locationName;
                 }
 
                 saveName += " " + System.DateTime.Now.ToString(displayTime);
 
                 lastSaveTime = Time.realtimeSinceStartup;
 
-                if (autosaveLimit > 0 && queueAutosaves.Count >= autosaveLimit)
-                {
-                    DeleteQueuedAutosave();
-                }
-
                 GameManager.Instance.SaveLoadManager.Save(GameManager.Instance.PlayerEntity.Name, saveName);
+
+                if (autosaveLimit > 0)
+                {
+                    ShouldDeleteSaves();
+                }
             }
         }
 
-        private void DeleteQueuedAutosave()
+        private void ShouldDeleteSaves()
         {
-            int idxToDelete = queueAutosaves.Dequeue();
-            GameManager.Instance.SaveLoadManager.DeleteSaveFolder(idxToDelete);
+            int[] currentKeys = GameManager.Instance.SaveLoadManager.GetCharacterSaveKeys(GameManager.Instance.PlayerEntity.Name);
+
+            if(currentKeys.Length >= autosaveLimit)
+            {
+                List<SaveInfo_v1> saveList = new List<SaveInfo_v1>();
+                foreach (var key in currentKeys)
+                {
+                    SaveInfo_v1 saveFolder = GameManager.Instance.SaveLoadManager.GetSaveInfo(key);
+                    if (saveFolder.saveName.Contains("Autosave"))
+                    {
+                        saveList.Add(saveFolder);
+                    }
+                }
+
+                saveList.Sort(delegate (SaveInfo_v1 sv1, SaveInfo_v1 sv2) {
+                    return sv1.dateAndTime.realTime.CompareTo(sv2.dateAndTime.realTime);
+                });
+
+                while (saveList.Count >= autosaveLimit)
+                {
+                    SaveInfo_v1 saveToDelete = saveList[0];
+                    int saveIdx = GameManager.Instance.SaveLoadManager.FindSaveFolderByNames(GameManager.Instance.PlayerEntity.Name, saveToDelete.saveName);
+                    GameManager.Instance.SaveLoadManager.DeleteSaveFolder(saveIdx);
+                    saveList.RemoveAt(0);
+                }
+            }
+           
         }
 
         private void CheckWatch()
