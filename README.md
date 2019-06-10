@@ -1,5 +1,5 @@
 # Daggerfall-Unity Autosave
-Simple autosaving for Daggerfall-Unity
+Simple autosaving for Daggerfall-Unity. [Thread](https://forums.dfworkshop.net/viewtopic.php?f=27&t=2151)
 
 ## Installation
 - Download this repository as a zip, or clone it. 
